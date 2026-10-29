@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  web-app:
+    build: .
+    container_name: satyp_alu_planner_app
+    ports:
+      - "8089:80"
+    restart: always

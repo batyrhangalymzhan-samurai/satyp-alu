@@ -1,0 +1,15 @@
+rules_version = '2';
+
+// Әр пайдаланушы тек өз деректерін оқи және жаза алады:
+//   users/{uid}, users/{uid}/items/*, users/{uid}/settings/*
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      match /{document=**} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+  }
+}

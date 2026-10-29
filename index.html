@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Сатып алуды жоспарлауға арналған қосымша: бюджет, тізімдер және аналитика" />
+  <meta name="color-scheme" content="light" />
+  <title>Сатып алуды жоспарлау</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap&subset=cyrillic-ext" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Lucide сызықтық иконкалар (sprite) -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></symbol>
+    <symbol id="i-percent" viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+    <symbol id="i-sheet" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></symbol>
+    <symbol id="i-shirt" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+    <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/></symbol>
+    <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
+    <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></symbol>
+    <symbol id="i-piggy" viewBox="0 0 24 24"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2V5z"/><path d="M2 9v1c0 1.1.9 2 2 2h1"/><path d="M16 11h.01"/></symbol>
+  </svg>
+
+  <div class="file-warning hidden" id="fileWarning" role="alert">
+    Бұл сайтты файл ретінде (file://) ашуға болмайды — Firebase жұмыс істемейді.
+    Жергілікті серверде іске қосыңыз: <code>python -m http.server 8000</code> командасын орындап,
+    <code>http://localhost:8000</code> мекенжайын ашыңыз.
+  </div>
+  <script>
+    if (location.protocol === "file:") document.getElementById("fileWarning").classList.remove("hidden");
+  </script>
+
+  <!-- ===== Шапка ===== -->
+  <header class="topbar" id="topbar">
+    <div class="topbar__row">
+      <a class="brand" href="#" aria-label="Сатып алуды жоспарлау">
+        <span class="brand__mark" aria-hidden="true"><svg class="i"><use href="#i-bag"/></svg></span>
+        <span class="brand__name">Сатып алу<span class="brand__sub">жоспарлау</span></span>
+      </a>
+
+      <div class="search" role="search">
+        <label class="visually-hidden" for="searchInput">Тауарды іздеу</label>
+        <svg class="i search__icon" aria-hidden="true"><use href="#i-search"/></svg>
+        <input type="search" id="searchInput" class="search__input" placeholder="Тауарды іздеу..." autocomplete="off" />
+      </div>
+
+      <div class="topbar__actions">
+        <!-- Экспорт -->
+        <div class="dropdown" id="exportBox">
+          <button type="button" class="btn btn--outline" id="btnExport" aria-haspopup="menu" aria-expanded="false" aria-controls="exportMenu">
+            <svg class="i"><use href="#i-download"/></svg>
+            <span class="btn__text">Есеп жүктеу</span>
+          </button>
+          <div class="menu hidden" id="exportMenu" role="menu" aria-labelledby="btnExport">
+            <button type="button" class="menu__item" role="menuitem" id="btnExportPdf">
+              <svg class="i"><use href="#i-file"/></svg>
+              <span>PDF жүктеу<small>Басып шығару терезесі арқылы</small></span>
+            </button>
+            <button type="button" class="menu__item" role="menuitem" id="btnExportXlsx">
+              <svg class="i"><use href="#i-sheet"/></svg>
+              <span>Excel жүктеу<small>.xlsx файлы</small></span>
+            </button>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn--primary" id="btnAddItem">
+          <svg class="i"><use href="#i-plus"/></svg>
+          <span class="btn__text">Жаңа тауар қосу</span>
+        </button>
+
+        <!-- Профиль -->
+        <div class="dropdown profile" id="userBox">
+          <button type="button" class="profile__trigger" id="btnProfile" aria-haspopup="menu" aria-expanded="false" aria-controls="profileMenu" aria-label="Профиль мәзірі">
+            <span class="avatar avatar--sm" id="profileAvatar" aria-hidden="true"></span>
+            <span class="profile__name" id="userGreeting"></span>
+            <svg class="i i--sm profile__chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button>
+          <div class="menu menu--wide hidden" id="profileMenu" role="menu" aria-labelledby="btnProfile">
+            <div class="menu__head">
+              <span class="avatar avatar--md" id="menuAvatar" aria-hidden="true"></span>
+              <div class="menu__who">
+                <p class="menu__name" id="menuName"></p>
+                <p class="menu__email" id="menuEmail"></p>
+              </div>
+            </div>
+            <div class="menu__sep" role="separator"></div>
+            <button type="button" class="menu__item" role="menuitem" id="btnOpenProfile">
+              <svg class="i"><use href="#i-user"/></svg><span>Профильді өзгерту</span>
+            </button>
+            <button type="button" class="menu__item menu__item--danger" role="menuitem" id="btnLogout">
+              <svg class="i"><use href="#i-logout"/></svg><span>Шығу</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="tabs" role="tablist" aria-label="Негізгі бөлімдер">
+      <button type="button" class="tabs__item tabs__item--active" role="tab" aria-selected="true" data-tab="overview"><svg class="i i--sm"><use href="#i-home"/></svg>Басты бет</button>
+      <button type="button" class="tabs__item" role="tab" aria-selected="false" data-tab="lists"><svg class="i i--sm"><use href="#i-list"/></svg>Тізімдер</button>
+      <button type="button" class="tabs__item" role="tab" aria-selected="false" data-tab="analytics"><svg class="i i--sm"><use href="#i-chart"/></svg>Аналитика</button>
+    </nav>
+  </header>
+
+  <main class="main">
+    <!-- ===== Басты бет ===== -->
+    <section id="panel-overview" class="panel panel--active" role="tabpanel">
+      <div class="page-head">
+        <h1 class="page-title">Басты бет</h1>
+        <p class="page-sub">Бюджет пен сатып алулардың қысқаша жағдайы</p>
+      </div>
+
+      <div class="metrics" aria-label="Бюджет көрсеткіштері">
+        <article class="metric metric--ink">
+          <div class="metric__head">
+            <span class="metric__icon"><svg class="i"><use href="#i-wallet"/></svg></span>
+            <h2 class="metric__label">Жалпы бюджет</h2>
+            <button type="button" class="icon-btn icon-btn--light" id="btnEditBudget" aria-label="Бюджетті өзгерту" title="Бюджетті өзгерту"><svg class="i i--sm"><use href="#i-pencil"/></svg></button>
+          </div>
+          <p class="metric__value" id="displayBudget">0 ₸</p>
+          <p class="metric__foot">Сатып алу лимиті</p>
+        </article>
+
+        <article class="metric">
+          <div class="metric__head">
+            <span class="metric__icon"><svg class="i"><use href="#i-list"/></svg></span>
+            <h2 class="metric__label">Жоспарланған сома</h2>
+          </div>
+          <p class="metric__value" id="displayPlanned">0 ₸</p>
+          <p class="metric__foot" id="plannedNote">Барлық тауарлар бойынша</p>
+        </article>
+
+        <article class="metric">
+          <div class="metric__head">
+            <span class="metric__icon metric__icon--ok"><svg class="i"><use href="#i-check"/></svg></span>
+            <h2 class="metric__label">Орындалған сома</h2>
+          </div>
+          <p class="metric__value" id="displaySpent">0 ₸</p>
+          <p class="metric__foot" id="spentNote">Сатып алынған тауарлар</p>
+        </article>
+
+        <article class="metric" id="cardRemaining">
+          <div class="metric__head">
+            <span class="metric__icon" id="remainingIcon"><svg class="i"><use href="#i-piggy"/></svg></span>
+            <h2 class="metric__label">Қалдық</h2>
+          </div>
+          <p class="metric__value" id="displayRemaining">0 ₸</p>
+          <span class="alert-badge hidden" id="overBadge" role="status"><svg class="i i--sm"><use href="#i-alert"/></svg>Бюджеттен асу!</span>
+          <p class="metric__foot" id="remainingNote">Бюджет минус орындалған сома</p>
+        </article>
+      </div>
+
+      <article class="card usage">
+        <div class="usage__head">
+          <h2 class="card__title">Бюджет пайдалануы</h2>
+          <span class="pill pill--neutral" id="budgetPercentBadge">0%</span>
+        </div>
+        <div class="progress" role="progressbar" aria-label="Бюджет пайдалануы" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="budgetProgressBar">
+          <div class="progress__planned" id="usagePlanned"></div>
+          <div class="progress__spent" id="usageSpent"></div>
+        </div>
+        <div class="legend">
+          <span class="legend__item"><i class="dot dot--ink"></i>Орындалған</span>
+          <span class="legend__item"><i class="dot dot--soft"></i>Жоспарланған</span>
+        </div>
+        <p class="usage__msg" id="budgetProgressMessage">Бюджет шегінде</p>
+      </article>
+
+      <article class="card">
+        <div class="card__head">
+          <h2 class="card__title">Жақын сатып алулар</h2>
+          <button type="button" class="link-btn" id="btnGoLists">Барлық тізім</button>
+        </div>
+        <ul class="item-list" id="overviewItemList"></ul>
+        <div class="empty" id="overviewEmpty">
+          <span class="empty__icon"><svg class="i"><use href="#i-inbox"/></svg></span>
+          <p class="empty__title">Жоспарланған тауар жоқ</p>
+          <p class="empty__text">«Тізімдер» бетіне өтіп, алғашқы тауарды қосыңыз.</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===== Тізімдер ===== -->
+    <section id="panel-lists" class="panel" role="tabpanel" hidden>
+      <div class="page-head page-head--row">
+        <div>
+          <h1 class="page-title">Сатып алу тізімі</h1>
+          <p class="page-sub" id="listCount">0 тауар</p>
+        </div>
+      </div>
+
+      <div class="toolbar card" role="group" aria-label="Іздеу, сүзгі және сұрыптау">
+        <label class="visually-hidden" for="filterCategory">Категория</label>
+        <select id="filterCategory" class="select"><option value="all">Барлық категориялар</option></select>
+        <label class="visually-hidden" for="filterStatus">Күйі</label>
+        <select id="filterStatus" class="select">
+          <option value="all">Барлық күй</option>
+          <option value="planned">Жоспарланған</option>
+          <option value="purchased">Сатып алынған</option>
+          <option value="important">Маңызды</option>
+        </select>
+        <label class="visually-hidden" for="sortBy">Сұрыптау</label>
+        <select id="sortBy" class="select">
+          <option value="date-desc">Күні: жаңадан ескіге</option>
+          <option value="date-asc">Күні: ескіден жаңаға</option>
+          <option value="price-desc">Баға: жоғарыдан төменге</option>
+          <option value="price-asc">Баға: төменнен жоғарыға</option>
+          <option value="priority-desc">Маңыздылық: жоғары</option>
+          <option value="priority-asc">Маңыздылық: төмен</option>
+        </select>
+        <button type="button" class="btn btn--ghost-danger" id="btnReset"><svg class="i"><use href="#i-trash"/></svg><span class="btn__text">Тазалау</span></button>
+      </div>
+
+      <article class="card card--flush">
+        <ul class="item-list" id="mainItemList"></ul>
+        <div class="empty" id="listEmpty">
+          <span class="empty__icon"><svg class="i"><use href="#i-inbox"/></svg></span>
+          <p class="empty__title" id="listEmptyTitle">Тізім бос</p>
+          <p class="empty__text" id="listEmptyText">Алғашқы тауарды қосыңыз.</p>
+          <button type="button" class="btn btn--primary btn--sm" data-open-add id="listEmptyCta"><svg class="i i--sm"><use href="#i-plus"/></svg>Жаңа тауар қосу</button>
+        </div>
+        <footer class="cart-total">
+          <span>Жалпы себет сомасы</span>
+          <strong id="cartTotal">0 ₸</strong>
+        </footer>
+      </article>
+    </section>
+
+    <!-- ===== Аналитика ===== -->
+    <section id="panel-analytics" class="panel" role="tabpanel" hidden>
+      <div class="page-head">
+        <h1 class="page-title">Аналитика</h1>
+        <p class="page-sub">Шығындардың категориялар және маңыздылық бойынша бөлінуі</p>
+      </div>
+
+      <div class="mini-stats" id="miniStats"></div>
+
+      <div class="analytics-grid">
+        <div class="stack">
+          <article class="card">
+            <div class="card__head"><h2 class="card__title">Категориялар бойынша шығын</h2></div>
+            <div class="bars" id="categoryChart"></div>
+            <div class="empty empty--inline" id="chartEmpty"><p class="empty__text">Аналитика үшін тауар қосыңыз</p></div>
+          </article>
+
+          <article class="card">
+            <div class="card__head"><h2 class="card__title">Калькулятор</h2></div>
+            <dl class="calc-list">
+              <div class="calc-row"><dt>Жоспарланған барлығы</dt><dd id="calcPlanned">0 ₸</dd></div>
+              <div class="calc-row"><dt>Сатып алынған</dt><dd id="calcPurchased">0 ₸</dd></div>
+              <div class="calc-row"><dt>Қалған сатып алу</dt><dd id="calcRemainingItems">0 ₸</dd></div>
+              <div class="calc-row"><dt>Жеңілдіктен үнемделген</dt><dd id="calcSavings">0 ₸</dd></div>
+              <div class="calc-row calc-row--total"><dt>Бюджетке сәйкес қалдық</dt><dd id="calcBudgetLeft">0 ₸</dd></div>
+            </dl>
+          </article>
+        </div>
+
+        <div class="stack">
+          <article class="card">
+            <div class="card__head"><h2 class="card__title">Орындалу барысы</h2><span class="pill pill--neutral" id="execPct">0%</span></div>
+            <div class="progress progress--lg"><div class="progress__spent" id="execFill"></div></div>
+            <p class="usage__msg" id="execText">0 / 0 тауар сатып алынды</p>
+          </article>
+
+          <article class="card">
+            <div class="card__head"><h2 class="card__title">Маңыздылық бойынша</h2></div>
+            <div class="bars bars--compact" id="priorityChart"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Тауар қосу / өзгерту модалы ===== -->
+  <dialog class="modal modal--lg" id="itemModal" aria-labelledby="formTitle">
+    <form id="itemForm" class="modal__inner" novalidate>
+      <div class="modal__head">
+        <h2 class="modal__title" id="formTitle">Жаңа тауар қосу</h2>
+        <button type="button" class="icon-btn" id="btnCloseItem" aria-label="Жабу"><svg class="i"><use href="#i-x"/></svg></button>
+      </div>
+      <input type="hidden" id="itemId" value="" />
+
+      <div class="form-grid">
+        <div class="field field--full">
+          <label for="itemName">Тауар атауы</label>
+          <input type="text" id="itemName" required maxlength="120" placeholder="Мысалы: Сүт 2.5%" />
+        </div>
+        <div class="field">
+          <label for="itemCategory">Категория</label>
+          <select id="itemCategory" required></select>
+        </div>
+        <div class="field">
+          <label for="itemPriority">Маңыздылығы</label>
+          <select id="itemPriority" required></select>
+        </div>
+        <div class="field">
+          <label for="itemQty">Саны</label>
+          <input type="number" id="itemQty" min="0.01" step="0.01" value="1" required />
+        </div>
+        <div class="field">
+          <label for="itemUnit">Өлшем бірлігі</label>
+          <select id="itemUnit" required></select>
+        </div>
+        <div class="field">
+          <label for="itemPrice">Бірлік бағасы</label>
+          <input type="number" id="itemPrice" min="0" step="any" value="0" required />
+        </div>
+        <div class="field">
+          <label for="itemCurrency">Валюта</label>
+          <select id="itemCurrency"></select>
+        </div>
+        <div class="field">
+          <label for="itemDiscount">Жеңілдік, % <span class="field__opt">міндетті емес</span></label>
+          <input type="number" id="itemDiscount" min="0" max="100" step="any" value="0" />
+        </div>
+        <div class="field">
+          <label for="itemNotes">Дүкен немесе ескертпе</label>
+          <input type="text" id="itemNotes" maxlength="200" placeholder="Мысалы: Magnum" />
+        </div>
+      </div>
+
+      <div class="calc" aria-live="polite">
+        <div class="calc__line"><span id="calcFormula">1 × 0 ₸</span><span id="calcGross">0 ₸</span></div>
+        <div class="calc__line calc__line--discount hidden" id="calcDiscountLine"><span id="calcDiscountLabel">Жеңілдік</span><span id="calcDiscount">−0 ₸</span></div>
+        <div class="calc__line calc__line--total"><span>Қорытынды сома</span><strong id="calcFinal">0 ₸</strong></div>
+        <p class="calc__note hidden" id="calcRateNote"></p>
+      </div>
+
+      <div class="modal__actions">
+        <button type="button" class="btn btn--outline" id="btnCancelEdit">Болдырмау</button>
+        <button type="submit" class="btn btn--primary" id="btnSubmitItem">Қосу</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Бюджет модалы -->
+  <dialog class="modal" id="budgetModal">
+    <form method="dialog" id="budgetForm" class="modal__inner">
+      <h2 class="modal__title">Жалпы бюджетті өзгерту</h2>
+      <p class="modal__text">Өз бюджетіңізді енгізіңіз — ол есептік жазбаңызда сақталады.</p>
+      <div class="field">
+        <label for="budgetInput">Сома (₸)</label>
+        <input type="number" id="budgetInput" min="0" step="100" required />
+      </div>
+      <div class="modal__actions">
+        <button type="button" class="btn btn--outline" id="budgetCancel">Жабу</button>
+        <button type="submit" class="btn btn--primary">Сақтау</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Профиль модалы -->
+  <dialog class="modal" id="profileModal" aria-labelledby="profileModalTitle">
+    <form id="profileForm" class="modal__inner" novalidate>
+      <h2 class="modal__title" id="profileModalTitle">Профиль</h2>
+
+      <div class="avatar-edit">
+        <span class="avatar avatar--lg" id="profileEditAvatar" aria-hidden="true"></span>
+        <div class="avatar-edit__actions">
+          <button type="button" class="btn btn--outline btn--sm" id="btnAvatarPick">Фото таңдау</button>
+          <button type="button" class="btn btn--outline btn--sm" id="btnAvatarRemove">Өшіру</button>
+          <p class="avatar-edit__hint">JPG немесе PNG, 5 МБ-қа дейін</p>
+        </div>
+        <input type="file" id="avatarFile" accept="image/*" class="visually-hidden" />
+      </div>
+
+      <div class="field">
+        <label for="profileName">Аты-жөні</label>
+        <input type="text" id="profileName" maxlength="60" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="profileEmail">Электрондық пошта</label>
+        <input type="email" id="profileEmail" disabled />
+      </div>
+      <p class="notice notice--error hidden" id="profileError" role="alert"></p>
+
+      <div class="modal__actions">
+        <button type="button" class="btn btn--outline" id="profileCancel">Болдырмау</button>
+        <button type="submit" class="btn btn--primary" id="profileSave">Сақтау</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Тазалауды растау -->
+  <dialog class="modal" id="confirmModal">
+    <div class="modal__inner">
+      <h2 class="modal__title">Барлық деректерді тазалау керек пе?</h2>
+      <p class="modal__text">Бұл әрекетті қайтару мүмкін емес. Бұлттағы барлық тауарлар жойылып, бюджет 0 ₸ мәніне қайтарылады.</p>
+      <div class="modal__actions">
+        <button type="button" class="btn btn--outline" id="confirmCancel">Жоқ</button>
+        <button type="button" class="btn btn--primary" id="confirmOk">Иә, тазалау</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Авторизация / тіркелу модалы -->
+  <dialog class="modal modal--auth" id="authModal" aria-labelledby="authTitle">
+    <div class="modal__inner auth">
+      <div class="auth__brand">
+        <span class="brand__mark brand__mark--lg" aria-hidden="true"><svg class="i"><use href="#i-bag"/></svg></span>
+        <h2 class="auth__title" id="authTitle">Сатып алуды жоспарлау</h2>
+        <p class="auth__subtitle" id="authSubtitle">Есептік жазбаңызға кіріңіз</p>
+      </div>
+
+      <div class="auth-tabs" role="tablist" aria-label="Кіру немесе тіркелу">
+        <button type="button" class="auth-tabs__item auth-tabs__item--active" role="tab" aria-selected="true" data-auth-tab="login">Кіру</button>
+        <button type="button" class="auth-tabs__item" role="tab" aria-selected="false" data-auth-tab="register">Тіркелу</button>
+      </div>
+
+      <p class="notice notice--error hidden" id="authConfigWarning">
+        Firebase конфигі толтырылмаған. <code>script.js</code> файлының басына өз <code>firebaseConfig</code> мәндеріңізді қойыңыз.
+      </p>
+      <p class="notice notice--error hidden" id="authError" role="alert"></p>
+
+      <form id="loginForm" class="auth-form" novalidate>
+        <div class="field">
+          <label for="loginEmail">Электрондық пошта</label>
+          <input type="email" id="loginEmail" autocomplete="email" placeholder="example@mail.com" />
+        </div>
+        <div class="field">
+          <label for="loginPassword">Құпия сөз</label>
+          <input type="password" id="loginPassword" autocomplete="current-password" placeholder="••••••••" />
+        </div>
+        <button type="submit" class="btn btn--primary btn--block">Кіру</button>
+      </form>
+
+      <form id="registerForm" class="auth-form hidden" novalidate>
+        <div class="field">
+          <label for="registerName">Аты-жөні</label>
+          <input type="text" id="registerName" maxlength="60" autocomplete="name" placeholder="Мысалы: Айдос Нұрланұлы" />
+        </div>
+        <div class="field">
+          <label for="registerEmail">Электрондық пошта</label>
+          <input type="email" id="registerEmail" autocomplete="email" placeholder="example@mail.com" />
+        </div>
+        <div class="field">
+          <label for="registerPassword">Құпия сөз</label>
+          <input type="password" id="registerPassword" autocomplete="new-password" placeholder="Кемінде 6 таңба" />
+        </div>
+        <button type="submit" class="btn btn--primary btn--block">Тіркелу</button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Жүктелу индикаторы -->
+  <div class="app-loader" id="appLoader" role="status" aria-live="polite">
+    <div class="app-loader__spinner" aria-hidden="true"></div>
+    <p class="app-loader__text" id="appLoaderText">Жүктелуде...</p>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+  <!-- PDF есебі (тек басып шығарғанда көрінеді) -->
+  <div id="printReport" class="report" aria-hidden="true"></div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
